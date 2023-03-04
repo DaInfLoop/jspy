@@ -2,22 +2,6 @@ import importlib
 import traceback
 import lib.internals.debug as debug
 from json import loads
-class BaseError(BaseException):
-  def __init__(self, message):
-    self.message = message
-    self.name = "BaseError"
-
-  @property
-  def throwableVer(self):
-    return BaseException(f"[{self.name}]: {self.message}")
-
-  @property
-  def msg(self):
-    return self.message
-
-  @msg.setter
-  def msg(self, newMessage):
-    self.message = newMessage
 
 def throw_error(err, traceback = None):
   print(f'\033[31;1;4m{err}')
@@ -38,39 +22,13 @@ class Object(object):
     def __str__(self):
       return str(self.__dict__)
 
-def createObject(dict={}, environLike=False):
-  if environLike:
-    obj = __createEnvironLikeObject__(dict)
-  else:
-    obj = Object(dict)
+def createObject(dict={}):
+  obj = Object(dict)
 
   return obj
       
 import os
 import sys
-
-def __createEnvironLikeObject__(data={}):
-    if os.name == 'nt':
-        def check_str(value):
-            if not isinstance(value, str):
-                raise TypeError("str expected, not %s" % type(value).__name__)
-            return value
-        encode = check_str
-        decode = str
-        def encodekey(key):
-            return encode(key).upper()
-    else:
-        encoding = sys.getfilesystemencoding()
-        def encode(value):
-            if not isinstance(value, str):
-                raise TypeError("str expected, not %s" % type(value).__name__)
-            return value.encode(encoding, 'surrogateescape')
-        def decode(value):
-            return value.decode(encoding, 'surrogateescape')
-        encodekey = encode
-    return os._Environ(data,
-        encodekey, decode,
-        encode, decode, None, None)
 
 __requireCache__ = {}
 
@@ -108,7 +66,7 @@ class Console:
   log = print
 
   def clear():
-    os.system("")
+    os.system("clear" if os.name == "nt" else "cls")
 
 @property
 def true():

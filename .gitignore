@@ -1,0 +1,6 @@
+.git
+.config
+venv
+.replit
+.upm
+*/__pycache__

@@ -120,7 +120,7 @@ def getValidMode(mode: int, type: str) -> int:
     default = mode or 0
   else:
     if type != 'access':
-      raise Error("The expression evaluated to a falsy value.")
+      raise lib.internals.errors.Error("The expression evaluated to a falsy value.")
 
   if mode == None:
     return default
