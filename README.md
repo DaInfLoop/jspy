@@ -15,6 +15,7 @@ Note that jspy is not complete yet, so contributions on the [GitHub repo](https:
 
 <details>
   <summary>Core</summary>
+  
 ### class Object
 Class you can use to create an object. This is not the recommended way to create an object, and you should use `createObject()` instead.
 
